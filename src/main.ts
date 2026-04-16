@@ -8,6 +8,9 @@ import { InlineIssueRenderer } from './rendering/inlineIssueRenderer'
 import { IssueFenceRenderer } from './rendering/issueFenceRenderer'
 import { SearchFenceRenderer } from './rendering/searchFenceRenderer'
 import { SearchWizardModal } from './modals/searchWizardModal'
+import { snapshotByCompanyId } from './commands/snapshotByCompanyId'
+import { snapshotByComponent } from './commands/snapshotByComponent'
+import { snapshotByUser } from './commands/snapshotByUser'
 import { ViewPluginManager } from './rendering/inlineIssueViewPlugin'
 import { QuerySuggest } from './suggestions/querySuggest'
 import { setupIcons } from './icons/icons'
@@ -91,6 +94,29 @@ export default class JiraIssuePlugin extends Plugin {
             name: 'Insert count template',
             editorCallback: (editor: Editor, view: MarkdownView) => {
                 editor.replaceRange('```jira-count\n\n```', editor.getCursor())
+            }
+        })
+
+        // Snapshot commands
+        this.addCommand({
+            id: 'jira-snapshot-by-company-id',
+            name: 'Snapshot: Tickets by Company ID (Last Week)',
+            editorCallback: (editor: Editor, view: MarkdownView) => {
+                snapshotByCompanyId(this.app, editor)
+            }
+        })
+        this.addCommand({
+            id: 'jira-snapshot-by-component',
+            name: 'Snapshot: Tickets by Component (Last Week)',
+            editorCallback: (editor: Editor, view: MarkdownView) => {
+                snapshotByComponent(this.app, editor)
+            }
+        })
+        this.addCommand({
+            id: 'jira-snapshot-by-user',
+            name: 'Snapshot: Tickets by User (Last Week)',
+            editorCallback: (editor: Editor, view: MarkdownView) => {
+                snapshotByUser(this.app, editor)
             }
         })
     }
