@@ -23,7 +23,7 @@ export function snapshotByUser(app: App, editor: Editor): void {
                 ? SettingsData.accounts[0]
                 : undefined
 
-            const jql = `(creator = "${user}" OR assignee = "${user}" OR watcher = "${user}") AND (created >= "-7d" OR updated >= "-7d") ORDER BY updated DESC`
+            const jql = `(creator = "${user}" OR assignee = "${user}" OR watcher = "${user}") AND "Business Line" in ("探索（Explore）", "US/ROW") AND (created >= "-7d" OR updated >= "-7d") ORDER BY updated DESC`
 
             try {
                 new Notice('JiraIssue: Fetching tickets...')
