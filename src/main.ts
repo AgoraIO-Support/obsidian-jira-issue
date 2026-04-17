@@ -11,6 +11,7 @@ import { SearchWizardModal } from './modals/searchWizardModal'
 import { snapshotByCompanyId } from './commands/snapshotByCompanyId'
 import { snapshotByComponent } from './commands/snapshotByComponent'
 import { snapshotByUser } from './commands/snapshotByUser'
+import { createJiraSnapshotUriHandler } from './commands/snapshotUriHandler'
 import { ViewPluginManager } from './rendering/inlineIssueViewPlugin'
 import { QuerySuggest } from './suggestions/querySuggest'
 import { setupIcons } from './icons/icons'
@@ -119,6 +120,13 @@ export default class JiraIssuePlugin extends Plugin {
                 snapshotByUser(this.app, editor)
             }
         })
+
+        // Obsidian URI protocol handler — lets agents invoke snapshots headlessly
+        // obsidian://jira-snapshot?vault=VAULT&type=user|component|companyId&value=XXX&target=path/to/note.md
+        this.registerObsidianProtocolHandler(
+            'jira-snapshot',
+            createJiraSnapshotUriHandler(this.app)
+        )
     }
 
     onunload() {
